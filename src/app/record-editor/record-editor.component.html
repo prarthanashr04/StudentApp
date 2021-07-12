@@ -1,0 +1,29 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <label for="id">Id: </label>
+    <input id="id" type="text"  formControlName="id">
+
+    <label for="name">Name: </label>
+    <input id="name" type="text" formControlName="name">
+
+    <label for="additional_subject">Additional Subject: </label>
+    <input id="additional_subject" type="text" formControlName="additional_subject">
+
+    <label for="branch">Branch: </label>
+    <input id="branch" type="text"  formControlName="branch">
+
+    <label for="email_id">Email_id: </label>
+    <input id="email_id" type="email"  formControlName="email_id">
+
+    <label for="phone_no">Phone number: </label>
+    <input id="phone_no" type="text"  formControlName="phone_no">
+
+    <label for="average_percentage">Average : </label>
+    <input id="average_percentage" type="text"  formControlName="average_percentage">
+
+    <p>Complete the form to enable button.</p>
+    <button type="submit"  [disabled]="!profileForm.valid">Submit</button>
+    <button routerLink="/studentdetails">Back</button>
+
+</form>
+    
