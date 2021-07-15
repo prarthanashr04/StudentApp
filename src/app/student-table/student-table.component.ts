@@ -1,7 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CollegeData } from '../CollegeData';
 import { StudentService } from '../student.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, FormControl } from '@angular/forms';
+import { MatDialog, MAT_DIALOG_DATA ,MatDialogRef} from '@angular/material/dialog';
+import { EditContentDialog } from '../edit-content-dialog/edit-content-dialog.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-table',
@@ -15,7 +18,7 @@ export class StudentTableComponent implements OnInit {
   selectedStudent?: CollegeData;
   dataSource: CollegeData[] = []
 
-  constructor(private studentService: StudentService, public dialog: MatDialog) { }
+  constructor(private studentService: StudentService, public dialog: MatDialog , private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getStudents();
@@ -27,27 +30,29 @@ export class StudentTableComponent implements OnInit {
   }
 
   openDialog(student: CollegeData): void {
-    this.dialog.open(EditContentDialog, {
+    const dialogRef= this.dialog.open(EditContentDialog, {
       data: {
         showStudent: student
       }
     });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getStudents();
+      this.openSnackBar("Update operation successful","dismiss")
+    });
   }
 
-  deleteStudent(selectedStudent: CollegeData): void {
-    //this.studentService.deleteStudent(student.id)
-    this.dataSource = this.dataSource.filter(student => student.id !== selectedStudent.id);
-    console.log(this.dataSource);
-
+  deleteStudent(student: CollegeData): void {
+    this.dataSource = this.dataSource.filter(h => h !== student);
+  this.studentService.deleteStudent(student.id).subscribe( () => this.openSnackBar("Delete operation successful","dismiss"));
+  
   }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message,action);
+  }
+
 }
 
 
 
-@Component({
-  selector: 'edit-content-dialog',
-  templateUrl: 'edit-content-dialog.html',
-})
-export class EditContentDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
-}
+

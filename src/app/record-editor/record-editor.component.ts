@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { CollegeData } from '../CollegeData';
 import { Student_data } from '../mock-students';
+import { StudentService } from '../student.service';
+import { Location } from '@angular/common';
+import { StudentTableComponent } from '../student-table/student-table.component';
+
 
 @Component({
   selector: 'app-record-editor',
@@ -10,7 +15,6 @@ import { Student_data } from '../mock-students';
 export class RecordEditorComponent implements OnInit {
 
   profileForm = new FormGroup({
-    id: new FormControl(''),
     name: new FormControl(''),
     additional_subject: new FormControl(''),
     branch: new FormControl(''),
@@ -21,16 +25,23 @@ export class RecordEditorComponent implements OnInit {
 
   dataSource = Student_data;
 
-  constructor() { }
+  constructor(private studentService: StudentService, private location: Location, 
+    private studentTable: StudentTableComponent
+    ) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    console.log(this.profileForm.value);
-    Student_data.push(this.profileForm.value)
-    this.dataSource = Student_data;
-    console.log(this.dataSource);
+  goBack(): void {
+    this.location.back();
+  }
+  
+  onSubmit():void{
+    this.studentService.addStudent(this.profileForm.value).subscribe(() =>{
+      this.goBack() ; 
+      this.studentTable.openSnackBar("Add operation","successful")
+    });
+    
   }
 
 }

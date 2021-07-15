@@ -41,7 +41,7 @@ const createDetail = (request, response) => {
 const updateDetail = (request, response) => {
     const id = parseInt(request.params.id);
     const { name, additional_subject, branch, email_id, phone_no, average_percentage } = request.body
-
+    console.log(id);
     pool.query(
         'UPDATE details SET name = $1, additional_subject = $2, branch = $3, email_id = $4, phone_no = $5, average_percentage = $6 WHERE id = $7',
         [ name, additional_subject, branch, email_id, phone_no, average_percentage , id],
