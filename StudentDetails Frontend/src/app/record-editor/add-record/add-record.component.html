@@ -1,0 +1,34 @@
+<body>
+    <form [formGroup]="profileForm" class="add-edit-form" (ngSubmit)="onSubmit()">
+
+        <h1>New Student</h1>
+        <mat-form-field>
+            <mat-label for="name">Name: </mat-label>
+            <input matInput id="name" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="additional_subject">Additional Subject: </mat-label>
+            <input matInput id="additional_subject" type="text" formControlName="additional_subject">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="branch">Branch: </mat-label>
+            <input matInput id="branch" type="text" formControlName="branch">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="email_id">Email_id: </mat-label>
+            <input matInput id="email_id" type="email" formControlName="email_id">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="phone_no">Phone number: </mat-label>
+            <input matInput id="phone_no" type="text" formControlName="phone_no">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label for="average_percentage">Average : </mat-label>
+            <input matInput id="average_percentage" type="text" formControlName="average_percentage">
+        </mat-form-field>
+        <button type="submit">Submit</button>
+        <button routerLink="/studentdetails">Back</button>
+
+
+    </form>
+</body>
