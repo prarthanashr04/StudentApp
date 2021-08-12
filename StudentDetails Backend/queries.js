@@ -70,4 +70,5 @@ module.exports = {
     getDetailById,
     createDetail,
     updateDetail,
-    deleteDetail,
+    deleteDetail,
+}
