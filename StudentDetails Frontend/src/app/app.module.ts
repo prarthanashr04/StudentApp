@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { StudentTableComponent } from './student-table/student-table.component';
 import { EditContentDialogComponent } from './record-editor/edit-content-dialog/edit-content-dialog.component';
 import { AddRecordComponent } from './record-editor/add-record/add-record.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AddRecordComponent } from './record-editor/add-record/add-record.compon
     AppComponent,
     StudentTableComponent,
     EditContentDialogComponent,
-    AddRecordComponent
+    AddRecordComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

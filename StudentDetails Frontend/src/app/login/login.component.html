@@ -1,0 +1,26 @@
+<body>
+    <form [formGroup]="loginForm" class="login-form" (submit)="submit()">
+        <h1>{{heading}}</h1>
+        <mat-form-field *ngIf="!loginMode" appearance="fill">
+            <mat-label for ="name">Name</mat-label>
+            <input matInput id="name" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Email id</mat-label>
+            <input matInput id="email" type="text" formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" id="password" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <a mat-button id="togglebutton" *ngIf="!loginMode; else loginPage" routerLink="/login">Already have an account</a>
+        <ng-template #loginPage>
+            <a mat-button id="togglebutton" routerLink="/register">Don't have an account</a>
+        </ng-template>
+        <button id="loginbutton" type="submit">{{submitButton}}</button>
+    </form>
+</body>
