@@ -6,6 +6,7 @@ export interface StudentDataType {
   email_id: string;
   phone_no: string;
   average_percentage: string;
+  password: string;
 }
 export interface StudentDataTypeNoID {
   name: string;
@@ -14,5 +15,10 @@ export interface StudentDataTypeNoID {
   email_id: string;
   phone_no: string;
   average_percentage: string;
+  password: string;
 }
 
+export interface LoginDataType {
+  email_id: string;
+  password: string;
+}

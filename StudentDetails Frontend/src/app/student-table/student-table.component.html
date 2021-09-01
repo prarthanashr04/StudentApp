@@ -1,6 +1,8 @@
 <p>
   <mat-toolbar color="primary">
     <span>Student Details</span>
+    <span class="spacer"></span>
+    <button mat-raised-button (click)= "onLogout()">Logout <mat-icon>exit_to_app</mat-icon></button>
   </mat-toolbar>
 </p>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

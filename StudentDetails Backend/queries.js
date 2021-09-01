@@ -4,7 +4,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'students',
     password: 'password',
-    port: 5432 , 
+    port: 5432,
 });
 
 const getDetails = (request, response) => {
@@ -28,23 +28,23 @@ const getDetailById = (request, response) => {
 };
 
 const createDetail = (request, response) => {
-    const { name, additional_subject, branch, email_id, phone_no, average_percentage } = request.body;
+    const { name, additional_subject, branch, email_id, phone_no, average_percentage, password } = request.body;
 
-    pool.query('INSERT INTO details (name, additional_subject, branch, email_id, phone_no, average_percentage) VALUES ($1, $2, $3, $4, $5, $6)', [name, additional_subject, branch, email_id, phone_no, average_percentage], (error, results) => {
+    pool.query('INSERT INTO details (name, additional_subject, branch, email_id, phone_no, average_percentage, password) VALUES ($1, $2, $3, $4, $5, $6, $7)', [name, additional_subject, branch, email_id, phone_no, average_percentage, password], (error, results) => {
         if (error) {
             throw error
         }
-        response.status(201).send('Detail added with ID: ${result.insertId}')
+        response.status(201).send(`Detail added with ID: ${results.id}`)
     })
 }
 
 const updateDetail = (request, response) => {
     const id = parseInt(request.params.id);
-    const { name, additional_subject, branch, email_id, phone_no, average_percentage } = request.body
+    const { name, additional_subject, branch, email_id, phone_no, average_percentage, password } = request.body
     console.log(id);
     pool.query(
-        'UPDATE details SET name = $1, additional_subject = $2, branch = $3, email_id = $4, phone_no = $5, average_percentage = $6 WHERE id = $7',
-        [ name, additional_subject, branch, email_id, phone_no, average_percentage , id],
+        'UPDATE details SET name = $1, additional_subject = $2, branch = $3, email_id = $4, phone_no = $5, average_percentage = $6, password = $7 WHERE id = $8',
+        [name, additional_subject, branch, email_id, phone_no, average_percentage, password, id],
         (error, results) => {
             if (error) {
                 throw error
@@ -65,10 +65,49 @@ const deleteDetail = (request, response) => {
     })
 }
 
+const validateEmailAndPassword = (email, password) => {
+
+
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT password,email_id FROM details WHERE email_id = $1', [email], (error, results) => {
+            console.log(results.rows)
+            if(results.rows.length == 0 ) {
+                return reject(false);
+            }
+            if ((email == (results.rows[0].email_id)) && (password == (results.rows[0].password))) {
+                return resolve(true);
+            }else{
+                return reject(false);
+            }
+        })
+        
+    });
+
+};
+
+
+const getIdByEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT id,email_id FROM details WHERE email_id = $1', [email], (error, results) => {
+            
+            if (email == results.rows[0].email_id) {
+                return resolve(results.rows[0].id);
+            } else{
+                return reject(error)
+            }
+            
+        });
+    })
+    
+    
+};
+
 module.exports = {
     getDetails,
     getDetailById,
     createDetail,
     updateDetail,
     deleteDetail,
+    validateEmailAndPassword,
+    getIdByEmail
 }

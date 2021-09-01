@@ -4,6 +4,7 @@ import { StudentService } from '../student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditContentDialogComponent } from '../record-editor/edit-content-dialog/edit-content-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-student-table',
@@ -15,7 +16,7 @@ export class StudentTableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'additional_subject', 'branch', 'email_id', 'edit_student', 'delete_student'];
   dataSource: StudentDataType[] = []
 
-  constructor(private studentService: StudentService, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  constructor(private studentService: StudentService, public dialog: MatDialog, private _snackBar: MatSnackBar, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getStudents();
@@ -49,6 +50,10 @@ export class StudentTableComponent implements OnInit {
       duration: 3000
     });
   }
+
+  onLogout(){  
+    this.authService.logout();  
+  }  
 
 }
 
